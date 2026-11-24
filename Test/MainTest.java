@@ -25,7 +25,7 @@ class MainTest {
         assertEquals(expected, actual);
     }
 
-
+    //Testing the AverageNumOfNodesToCrossForEachNode method to see that it will generate the correct number.
     @Test
     void getAverageNumOfNodesToCrossForEachNode() {
         ArrayList<Integer> list = new ArrayList<>();

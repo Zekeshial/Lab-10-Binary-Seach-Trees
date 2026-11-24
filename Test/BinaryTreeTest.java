@@ -321,6 +321,7 @@ class BinaryTreeTest {
         assertFalse(bt.remove(600));
     }
 
+    //test below are testing the get height method for both types of get height to see if they correctly give the right height.
     @Test
     void height_emptyTree() {
         assertEquals(0, new BinaryTree().heightIterative());
@@ -340,5 +341,42 @@ class BinaryTreeTest {
     void height_skewed() {
         assertEquals(4, treeOf(1, 2, 3, 4, 5).heightIterative());
     }
+
+    @Test
+    void height_emptyTree2() {
+        assertEquals(0, new BinaryTree().getHeight());
+    }
+
+    @Test
+    void height_singleNode2() {
+        assertEquals(0, treeOf(5).getHeight());
+    }
+
+    @Test
+    void height_balanced2() {
+        assertEquals(2, treeOf(10, 5, 15, 3, 7, 12, 20).getHeight());
+    }
+
+    @Test
+    void height_skewed2() {
+        assertEquals(4, treeOf(1, 2, 3, 4, 5).getHeight());
+    }
+
+    @Test
+    void height_skewed3() {
+
+        BinaryTree bt = new BinaryTree();
+        bt.insert(1);
+        bt.insert(2);
+        bt.insert(3);
+        bt.insert(4);
+        bt.insert(5);
+        System.out.println(bt.getHeight());
+        assertEquals(4, bt.getHeight());
+    }
+
+
+
+
 
 }
