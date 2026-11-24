@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class BinaryTree {
     private Node root;
 
@@ -9,12 +11,13 @@ public class BinaryTree {
         this.root = root;
     }
 
+
     public Node find(Integer v) {
         if (root == null) {
             return null;
         }
         Node curr = root;
-        while(curr != null && curr.getData() != v) {
+        while(curr != null && !Objects.equals(curr.getData(), v)) {
             if (v < curr.getData()) {
                 curr = curr.getLeftNode();
             } else {
@@ -51,48 +54,42 @@ public class BinaryTree {
     }
 
     public boolean remove(Integer v) {
-        if (root == null) {
-            return false;
-        }
-        if (root.getData() == v) {
-            if (root.getLeftNode() == null) {
-                if (root.getRightNode() == null) {
-                    root = null;
-                    return true;
-                } else {
-                    root = root.getRightNode();
-                    return true;
-                }
-            } else if (root.getRightNode() == null) {
-                root = root.getLeftNode();
-                return true;
-            } else {
-                Node pnb = findParentNextBiggest(root);
-                if (pnb == root) {
-                    root.setData(pnb.getRightNode().getData());
-                    root.setRightNode(pnb.getRightNode().getRightNode());
-                    return true;
-                } else {
-                    root.setData(pnb.getLeftNode().getData());
-                    pnb.setLeftNode(pnb.getLeftNode().getLeftNode());
-                    return true;
-                }
-            }
-        } else {
-            Node nodeToRemove = find(v);
-            Node pnb = findParentNextBiggest(nodeToRemove);
-            if (pnb == nodeToRemove) {
-                nodeToRemove.setData(pnb.getRightNode().getData());
-                nodeToRemove.setRightNode(pnb.getRightNode().getRightNode());
-                return true;
-            } else {
-                nodeToRemove.setData(pnb.getLeftNode().getData());
-                pnb.setLeftNode(pnb.getLeftNode().getLeftNode());
-                return true;
-            }
+        Node parent = null;
+        Node curr = root;
 
+        while (curr != null && !curr.getData().equals(v)) {
+            parent = curr;
+            curr = (v < curr.getData()) ? curr.getLeftNode() : curr.getRightNode();
         }
+        if (curr == null) return false;  // not found
+
+        // Two children: replace data with successor's, then remove successor instead
+        if (curr.getLeftNode() != null && curr.getRightNode() != null) {
+            Node succParent = curr;
+            Node succ = curr.getRightNode();
+            while (succ.getLeftNode() != null) {
+                succParent = succ;
+                succ = succ.getLeftNode();
+            }
+            curr.setData(succ.getData());
+            parent = succParent;
+            curr = succ;            // now remove succ, which has at most a right child
+        }
+
+        // Zero or one child
+        Node child = (curr.getLeftNode() != null) ? curr.getLeftNode() : curr.getRightNode();
+
+        if (parent == null) {
+            root = child;
+        } else if (parent.getLeftNode() == curr) {
+            parent.setLeftNode(child);
+        } else {
+            parent.setRightNode(child);
+        }
+        return true;
     }
+
+
 
 
     // Method to print the tree inorder
@@ -103,7 +100,7 @@ public class BinaryTree {
     // A utility function to do inorder traversal of BST
     private void inorderRec(Node root) {
         if (root != null) {
-            inorderRec(root.getRightNode());
+            inorderRec(root.getLeftNode());
             System.out.print(root.getData() + " ");
             inorderRec(root.getRightNode());
         }
@@ -118,5 +115,27 @@ public class BinaryTree {
         return curr;
     }
 
+    public Node getRoot() {
+        return root;
+    }
 
+    public int heightIterative() {
+        if (root == null) {
+            return 0;
+        }
+        java.util.Queue<Node> queue = new java.util.LinkedList<>();
+        queue.add(root);
+        int height = 0;
+
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+            height++;
+            for (int i = 0; i < levelSize; i++) {
+                Node n = queue.poll();
+                if (n.getLeftNode() != null) queue.add(n.getLeftNode());
+                if (n.getRightNode() != null) queue.add(n.getRightNode());
+            }
+        }
+        return height;
+    }
 }
