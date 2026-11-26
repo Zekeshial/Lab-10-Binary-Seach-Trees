@@ -93,8 +93,8 @@ public class Main {
                 bt.insert(j);
             }
             double averageNodeTraversals = bt.findAverageNodeTraversal(listOfRandomInteger);
-            System.out.println("Average Node traversal on Tree" + i + ":" + averageNodeTraversals);
-            System.out.println("Height of tree" + i + ":" + bt.heightIterative());
+            System.out.println("Average Node traversal on Tree " + i + ":" + averageNodeTraversals);
+            System.out.println("Height of tree " + i + ":" + bt.heightIterative());
             listOfHeights.add(bt.heightIterative());
             listOfAverageNodeTraversals.add(averageNodeTraversals);
         }
