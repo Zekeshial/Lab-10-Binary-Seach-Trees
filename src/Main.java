@@ -10,7 +10,7 @@ public class Main {
     /**
      * This method generates a random list of integers
      * @param size the size of the list or how many integers you wish to create
-     * @param bound the size of the integers you wish to create or the max value a integer can be. Example is 100 would generate integers from 1-100.
+     * @param bound the size of the integers you wish to create or the max value an integer can be. Example is 100 would generate integers from 1-100.
      * @return The list of integers you generated.
      */
     public static ArrayList<Integer> generateRandomList(int size, int bound) {
@@ -35,7 +35,20 @@ public class Main {
         for (int i : list) {
             sum += i;
         }
-        return BigDecimal.valueOf((double) sum /list.size()).setScale(0, RoundingMode.HALF_UP).stripTrailingZeros().doubleValue();
+        return BigDecimal.valueOf((double) sum /list.size()).setScale(2, RoundingMode.HALF_UP).stripTrailingZeros().doubleValue();
+    }
+
+    /**
+     * This returns the mean of a list of Doubles
+     * @param list the list of doubles you wish to get the mean on
+     * @return the mean rounded up on the hundredth decimal place.
+     */
+    public static double getAverageSumOfListOfDouble(ArrayList<Double> list) {
+        int sum = 0;
+        for (Double i : list) {
+            sum += i;
+        }
+        return BigDecimal.valueOf((double) sum /list.size()).setScale(2, RoundingMode.HALF_UP).stripTrailingZeros().doubleValue();
     }
 
     /**
@@ -45,8 +58,8 @@ public class Main {
      */
     public static double getAverageNumOfNodesToCrossForEachNode(int size) {
 
-        double totalNumberOfNodesCrossed = BigDecimal.valueOf((double) (size*(size+1)/2)).setScale(0, RoundingMode.HALF_UP).stripTrailingZeros().doubleValue();
-        return BigDecimal.valueOf(totalNumberOfNodesCrossed/size).setScale(0, RoundingMode.HALF_UP).stripTrailingZeros().doubleValue();
+        double totalNumberOfNodesCrossed = BigDecimal.valueOf((double) (size*(size+1)/2)).setScale(2, RoundingMode.HALF_UP).stripTrailingZeros().doubleValue();
+        return BigDecimal.valueOf( totalNumberOfNodesCrossed/size).setScale(2, RoundingMode.HALF_UP).stripTrailingZeros().doubleValue();
     }
 
     public static void main() {
@@ -70,18 +83,24 @@ public class Main {
         System.out.println("Give me a number for how many numbers you wish to generate: ");
         int size = scanner.nextInt();
 
-        ArrayList<Integer> listOfHeights = new ArrayList<>(size);
-        for (int i = 0; i < 10; i++) {
+        int numOfTimesToRun = 10;
+        ArrayList<Integer> listOfHeights = new ArrayList<>(numOfTimesToRun);
+        ArrayList<Double> listOfAverageNodeTraversals = new ArrayList<>(numOfTimesToRun);
+        for (int i = 0; i < numOfTimesToRun; i++) {
             BinaryTree bt = new BinaryTree();
             ArrayList<Integer> listOfRandomInteger = generateRandomList(size, userInputOne);
             for(int j: listOfRandomInteger) {
                 bt.insert(j);
             }
-            System.out.println("Height " + i + ":" + bt.heightIterative());
+            double averageNodeTraversals = bt.findAverageNodeTraversal(listOfRandomInteger);
+            System.out.println("Average Node traversal on Tree" + i + ":" + averageNodeTraversals);
+            System.out.println("Height of tree" + i + ":" + bt.heightIterative());
             listOfHeights.add(bt.heightIterative());
+            listOfAverageNodeTraversals.add(averageNodeTraversals);
         }
         System.out.println("Your average height: " + getAverageSumOfListOfIntegers(listOfHeights));
         System.out.println("Your average time to find a node in a sequential list of your size: " + getAverageNumOfNodesToCrossForEachNode(size));
+        System.out.println("Your average time to find a node a binary search tree of your selected size: " + getAverageSumOfListOfDouble(listOfAverageNodeTraversals));
 
 
 

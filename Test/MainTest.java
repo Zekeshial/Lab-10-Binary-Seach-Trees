@@ -36,8 +36,9 @@ class MainTest {
         list.add(9);
         list.add(10);
         list.add(5);
+        list.add(5);
         double actual = Main.getAverageNumOfNodesToCrossForEachNode(list.size());
-        double expected = 4;
+        double expected = 4.5;
         assertEquals(expected, actual);
     }
 }

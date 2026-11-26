@@ -379,4 +379,64 @@ class BinaryTreeTest {
 
 
 
+    //Testing a balance tree
+    @Test
+    void findNodesNumToFindValue() {
+        ArrayList<Integer> list = new ArrayList<>(List.of(10,5,15,3,7,12,20));
+        BinaryTree bt = new BinaryTree();
+        for (Integer i : list) {
+            bt.insert(i);
+        }
+
+
+        double actual = bt.findAverageNodeTraversal(list);
+        double expected = 2.43;
+        assertEquals(expected, actual);
+    }
+
+    //Testing an unbalanced tree
+    @Test
+    void findNodesNumToFindValueTest2() {
+        ArrayList<Integer> list = new ArrayList<>(List.of(1,2,3,4,5));
+        BinaryTree bt = new BinaryTree();
+        for (Integer i : list) {
+            bt.insert(i);
+        }
+
+
+        double actual = bt.findAverageNodeTraversal(list);
+        double expected = 3;
+        assertEquals(expected, actual);
+    }
+
+    //Testing a tree with 1 node
+    @Test
+    void findNodesNumToFindValueTest3() {
+        ArrayList<Integer> list = new ArrayList<>(List.of(50));
+        BinaryTree bt = new BinaryTree();
+        for (Integer i : list) {
+            bt.insert(i);
+        }
+
+
+        double actual = bt.findAverageNodeTraversal(list);
+        double expected = 1;
+        assertEquals(expected, actual);
+    }
+
+    //Testing a tree with no nodes
+    @Test
+    void findNodesNumToFindValueTest4() {
+        ArrayList<Integer> list = new ArrayList<>(List.of());
+        BinaryTree bt = new BinaryTree();
+        for (Integer i : list) {
+            bt.insert(i);
+        }
+
+
+        double actual = bt.findAverageNodeTraversal(list);
+        double expected = 0;
+        assertEquals(expected, actual);
+    }
+
 }
